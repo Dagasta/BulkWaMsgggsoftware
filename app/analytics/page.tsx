@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { TrendingUp, Send, Users, Eye, ArrowUp, ArrowDown } from 'lucide-react';
+import BackButton from '@/components/ui/BackButton';
 
 export const metadata: Metadata = {
     title: 'Analytics - BulkWaMsg',
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 
 export default function AnalyticsPage() {
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            <BackButton />
+
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold text-dark-navy mb-2">Analytics</h1>

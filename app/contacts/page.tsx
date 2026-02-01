@@ -3,12 +3,15 @@
 import { useState } from 'react';
 import { Plus, Search, Upload, Download, MoreVertical, Users as UsersIcon } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import BackButton from '@/components/ui/BackButton';
 
 export default function ContactsPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            <BackButton />
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>

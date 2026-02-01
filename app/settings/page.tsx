@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { User, Bell, CreditCard, Shield, Smartphone } from 'lucide-react';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import BackButton from '@/components/ui/BackButton';
 import { createClient } from '@/lib/supabase/client';
 
 export default function SettingsPage() {
@@ -11,7 +12,9 @@ export default function SettingsPage() {
     const [activeTab, setActiveTab] = useState('profile');
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            <BackButton />
+
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold text-dark-navy mb-2">Settings</h1>
@@ -26,8 +29,8 @@ export default function SettingsPage() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center gap-2 pb-4 border-b-2 transition-colors ${activeTab === tab.id
-                                    ? 'border-trust-blue text-trust-blue'
-                                    : 'border-transparent text-slate-gray hover:text-dark-navy'
+                                ? 'border-trust-blue text-trust-blue'
+                                : 'border-transparent text-slate-gray hover:text-dark-navy'
                                 }`}
                         >
                             <tab.icon className="w-5 h-5" />

@@ -5,22 +5,27 @@ import { useState } from 'react';
 import { Plus, Search, Send, Calendar, MoreVertical, CheckCircle2, Clock, XCircle } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import BackButton from '@/components/ui/BackButton';
 
 export default function CampaignsPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            <BackButton />
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-dark-navy mb-2">Campaigns</h1>
                     <p className="text-slate-gray">Create and manage your WhatsApp message campaigns</p>
                 </div>
-                <Button>
-                    <Plus className="w-5 h-5" />
-                    New Campaign
-                </Button>
+                <a href="/campaigns/new">
+                    <Button>
+                        <Plus className="w-5 h-5" />
+                        New Campaign
+                    </Button>
+                </a>
             </div>
 
             {/* Stats */}
@@ -103,8 +108,8 @@ export default function CampaignsPage() {
                                         </td>
                                         <td className="py-4 px-4">
                                             <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${campaign.status === 'completed' ? 'bg-success-green/10 text-success-green' :
-                                                    campaign.status === 'scheduled' ? 'bg-warning-amber/10 text-warning-amber' :
-                                                        'bg-gray-100 text-slate-gray'
+                                                campaign.status === 'scheduled' ? 'bg-warning-amber/10 text-warning-amber' :
+                                                    'bg-gray-100 text-slate-gray'
                                                 }`}>
                                                 {campaign.status === 'completed' && <CheckCircle2 className="w-3 h-3" />}
                                                 {campaign.status === 'scheduled' && <Clock className="w-3 h-3" />}

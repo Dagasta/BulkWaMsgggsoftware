@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { MessageSquare, LayoutDashboard, Send, Users, BarChart3, Settings, LogOut } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import WhatsAppStatus from './WhatsAppStatus';
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -44,8 +45,8 @@ export default function Sidebar() {
                             key={item.name}
                             href={item.href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
-                                    ? 'bg-trust-blue text-white'
-                                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                                ? 'bg-trust-blue text-white'
+                                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                                 }`}
                         >
                             <item.icon className="w-5 h-5" />
@@ -54,6 +55,11 @@ export default function Sidebar() {
                     );
                 })}
             </nav>
+
+            {/* WhatsApp Status */}
+            <div className="p-4">
+                <WhatsAppStatus />
+            </div>
 
             {/* Logout */}
             <div className="p-4 border-t border-gray-800">

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { MessageSquare, Users, Send, TrendingUp, Clock, CheckCircle2 } from 'lucide-react';
+import { MessageSquare, Users, Send, TrendingUp, Clock, CheckCircle2, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -80,8 +80,8 @@ export default async function DashboardPage() {
                         <div key={index} className="flex items-center justify-between p-4 bg-soft-gray rounded-lg">
                             <div className="flex items-center gap-4">
                                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${campaign.status === 'completed' ? 'bg-success-green/10' :
-                                        campaign.status === 'scheduled' ? 'bg-warning-amber/10' :
-                                            'bg-trust-blue/10'
+                                    campaign.status === 'scheduled' ? 'bg-warning-amber/10' :
+                                        'bg-trust-blue/10'
                                     }`}>
                                     {campaign.status === 'completed' ? (
                                         <CheckCircle2 className="w-5 h-5 text-success-green" />
