@@ -1,18 +1,40 @@
 import { NextResponse } from 'next/server';
-import { initializeWhatsApp, getQRCode, isWhatsAppReady } from '@/lib/whatsapp/client';
+import { initializeWhatsApp, getQRCode, isWhatsAppReady, isWhatsAppInitializing } from '@/lib/whatsapp/client';
+import { createClient } from '@/lib/supabase/server';
 
 export async function GET() {
     try {
-        // Initialize WhatsApp client
-        initializeWhatsApp();
+        // Get authenticated user
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
 
-        const qrCode = getQRCode();
-        const ready = isWhatsAppReady();
+        if (!user) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
+
+        const userId = user.id;
+
+        // Initialize WhatsApp client for this user if not already done
+        initializeWhatsApp(userId);
+
+        const qrCode = getQRCode(userId);
+        const ready = isWhatsAppReady(userId);
+        const initializing = isWhatsAppInitializing(userId);
 
         return NextResponse.json({
             qrCode,
             ready,
-            message: ready ? 'WhatsApp is connected' : qrCode ? 'Scan QR code to connect' : 'Initializing...'
+            initializing,
+            message: ready
+                ? 'WhatsApp is connected'
+                : qrCode
+                    ? 'Scan QR code to connect'
+                    : initializing
+                        ? 'Initializing WhatsApp...'
+                        : 'Starting connection...'
         });
     } catch (error) {
         console.error('WhatsApp status error:', error);

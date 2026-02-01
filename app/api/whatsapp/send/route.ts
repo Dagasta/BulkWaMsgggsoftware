@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendMessage, sendBulkMessages } from '@/lib/whatsapp/client';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
     try {
+        // Get authenticated user
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
+
+        const userId = user.id;
         const body = await request.json();
         const { type, to, message, contacts } = body;
 
@@ -15,7 +28,7 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            await sendMessage(to, message);
+            await sendMessage(userId, to, message);
             return NextResponse.json({ success: true, message: 'Message sent successfully' });
         } else if (type === 'bulk') {
             // Send bulk messages
@@ -26,7 +39,7 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            const results = await sendBulkMessages(contacts);
+            const results = await sendBulkMessages(userId, contacts);
             return NextResponse.json({ success: true, results });
         } else {
             return NextResponse.json(

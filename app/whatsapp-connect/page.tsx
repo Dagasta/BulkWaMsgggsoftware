@@ -13,12 +13,18 @@ export default function WhatsAppConnectPage() {
 
     const checkStatus = async () => {
         try {
-            setIsLoading(true);
             setError(null);
             const response = await fetch('/api/whatsapp/status');
             const data = await response.json();
 
-            setQrCode(data.qrCode);
+            // Only update QR code if we got a new one or if ready
+            if (data.qrCode) {
+                setQrCode(data.qrCode);
+            } else if (data.ready) {
+                setQrCode(null); // Clear QR when connected
+            }
+            // Don't clear QR code if we don't have a new one and not ready
+
             setIsReady(data.ready);
             setIsLoading(false);
         } catch (err) {
@@ -28,10 +34,11 @@ export default function WhatsAppConnectPage() {
     };
 
     useEffect(() => {
+        // Initial check
         checkStatus();
 
-        // Poll for status updates every 3 seconds
-        const interval = setInterval(checkStatus, 3000);
+        // Poll for status updates every 5 seconds (less aggressive)
+        const interval = setInterval(checkStatus, 5000);
 
         return () => clearInterval(interval);
     }, []);
