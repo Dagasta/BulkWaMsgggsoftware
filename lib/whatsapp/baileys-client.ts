@@ -89,6 +89,7 @@ export async function initializeBaileysWhatsApp(userId: string) {
 
         // Load auth state
         console.log(`[Baileys] Loading auth state...`);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const { state, saveCreds } = await useMultiFileAuthState(authDir);
 
         // Create socket
